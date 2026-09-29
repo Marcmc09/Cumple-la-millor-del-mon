@@ -1,0 +1,162 @@
+<!doctype html>
+<!--
+  EL REGAL DE LA BERTA · index.html · versió 0.2
+
+  Aquest és el punt d'entrada de la web. Conserva el nom index.html.
+  Col·loca'l a la mateixa carpeta que els altres arxius:
+
+  - contingut.js: textos personals, fotografies i preguntes.
+  - estils.css: colors, tipografia, distribució i animacions.
+  - app.js: pantalles, jocs, navegació i guardat.
+  - fotos/: les imatges indicades a contingut.js.
+
+  app.js dibuixarà la pantalla activa dins de #app. No cal duplicar
+  aquí les sis proves ni les cartes: es construiran amb contingut.js.
+  Aquest HTML sol encara no és el regal complet.
+-->
+<html lang="ca">
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Amplada del dispositiu, marges segurs i zoom permès. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+    <meta name="theme-color" content="#fcf6eb">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Una mica de nosaltres, per tenir sempre a prop.">
+    <meta name="referrer" content="no-referrer">
+
+    <!-- Demana no indexar; NO és una contrasenya ni fa privada la web. -->
+    <meta name="robots" content="noindex, nofollow, noarchive">
+
+    <title>Per a tu, Berta · 17</title>
+
+    <!-- Icona inclosa en aquest arxiu: no necessita un favicon separat. -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23fcf6eb'/%3E%3Cpath d='M32 48 14 30C1 15 23 5 32 21C41 5 63 15 50 30Z' fill='%23762d3c'/%3E%3C/svg%3E"
+    >
+
+    <!-- Les fonts estan incloses a fonts/ i declarades a estils.css. -->
+
+    <!--
+      Estils mínims per a la càrrega i els avisos d'error.
+      El disseny del regal estarà a estils.css, no en aquest bloc.
+    -->
+    <style>
+      html { color-scheme: light; }
+      body { margin: 0; background: #fcf6eb; color: #762d3c; }
+      .skip-link {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 100;
+        padding: 12px 18px;
+        background: #762d3c;
+        color: #fff8ed;
+        font: 16px/1.5 Arial, sans-serif;
+        transform: translateY(-200%);
+      }
+      .skip-link:focus { transform: translateY(0); }
+      #boot-screen, .no-script {
+        box-sizing: border-box;
+        max-width: 480px;
+        margin: 48px auto;
+        padding: 24px;
+        font: 16px/1.7 "DM Sans", Arial, sans-serif;
+        text-align: center;
+        overflow-wrap: anywhere;
+      }
+      #boot-screen h1 {
+        margin: 0 0 20px;
+        font: 400 52px/1.15 "Cormorant Garamond", Georgia, serif;
+      }
+      #boot-screen a {
+        display: inline-block;
+        padding: 12px 18px;
+        color: inherit;
+        text-underline-offset: 4px;
+      }
+      #boot-screen code { font-size: 1em; }
+      [hidden] { display: none !important; }
+    </style>
+    <noscript>
+      <style>#boot-status { display: none; }</style>
+    </noscript>
+
+    <link rel="stylesheet" href="estils.css">
+
+    <!--
+      Important: mantén aquest ordre i l'atribut defer.
+      Primer es carreguen les dades; després s'inicia l'aplicació,
+      quan ja existeixen els elements del document.
+    -->
+    <script defer src="contingut.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#app">Anar al contingut</a>
+
+    <!--
+      No canviïs aquest id. app.js substituirà la benvinguda de càrrega
+      per la pantalla del pastís i, després, per la pantalla escollida.
+      El main es crea DINS d'aquest contenidor, per evitar main imbricats.
+    -->
+    <div id="app" tabindex="-1">
+      <main id="boot-screen" aria-labelledby="boot-title">
+        <h1 id="boot-title">Per a tu, Berta.</h1>
+        <p>Una mica de nosaltres, per tenir sempre a prop.</p>
+        <p id="boot-status" role="status">S’està obrint el regal…</p>
+
+        <!-- Només es mostra si l'aplicació no arriba a iniciar-se. -->
+        <div id="boot-help" hidden>
+          <p>
+            Comprova que <code>index.html</code>, <code>contingut.js</code>,
+            <code>estils.css</code> i <code>app.js</code> siguin a la mateixa
+            carpeta i que s’hagin descarregat completament.
+          </p>
+          <p>Si encara estem preparant els arxius, espera a tenir-los tots.</p>
+          <a href="./index.html">Tornar-ho a provar</a>
+        </div>
+      </main>
+    </div>
+
+    <!-- Avisos curts, accessibles i independents de la pantalla activa. -->
+    <div id="notice" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <!--
+      Visor de fotos. app.js n'afegirà la imatge, els botons de navegació,
+      el cor de preferit i el botó de tancar abans d'obrir-lo.
+    -->
+    <dialog id="viewer" aria-label="Fotografia ampliada"></dialog>
+
+    <noscript>
+      <div class="no-script">
+        <p>
+          Aquest regal necessita JavaScript per obrir els sobres i jugar.
+          Obre l’enllaç de la web en un navegador amb JavaScript activat.
+        </p>
+      </div>
+    </noscript>
+
+    <!--
+      Protecció d'arrencada: evita una pantalla buida o una càrrega infinita
+      si falta un script. No conté lògica de joc ni envia dades.
+      Amb defer, DOMContentLoaded s'executa després dels dos scripts.
+    -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const boot = document.getElementById("boot-screen");
+        if (!boot) return; // app.js ja ha dibuixat la pantalla inicial.
+
+        document.getElementById("boot-status").textContent =
+          "No s’ha pogut obrir el regal.";
+        document.getElementById("boot-help").hidden = false;
+      }, { once: true });
+    </script>
+  </body>
+</html>

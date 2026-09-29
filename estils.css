@@ -1,0 +1,1179 @@
+/*
+ * EL REGAL DE LA BERTA — DISSENY
+ * estils.css · versió 0.2
+ *
+ * Desa aquest fitxer al costat d'index.html, contingut.js i app.js.
+ * Aquí hi ha l'aspecte visual; els textos personals són a contingut.js.
+ *
+ * APARTATS
+ *  1. Colors i base             7. Puzle i proves
+ *  2. Paper i tipografia        8. Cartes i fotografies
+ *  3. Botons i formularis       9. El nostre racó
+ *  4. Navegació                10. Galeria i preferits
+ *  5. Pastís i espelmes         11. Visor, avisos i confeti
+ *  6. Sobres                   12. Mòbil i accessibilitat
+ *
+ * Pots canviar els colors principals a :root.
+ * No canviïs els noms de les classes: app.js els farà servir.
+ * Les fonts s'inclouen a fonts/; no cal connexió a Google Fonts.
+ * El CSS no carrega fotografies: les assignarà app.js des de contingut.js.
+ */
+
+/* 1. COLORS I BASE -------------------------------------------------- */
+
+@font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/cormorant-garamond-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/cormorant-garamond-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 400; font-display: swap; src: url("fonts/cormorant-garamond-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/dm-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/dm-sans-latin-500-normal.woff2") format("woff2"); }
+
+:root {
+  color-scheme: light;
+  --ink: #762d3c;
+  --ink-strong: #602331;
+  --cream: #fcf6eb;
+  --outside: #eee3d6;
+  --text: #59433d;
+  --muted: #705950;
+  --line: #d9c2b0;
+  --soft: #f2e3d6;
+  --rose: #f1dcd7;
+  --envelope: #f3e5d2;
+  --flap: #e6d1b7;
+  --photo-paper: #fffaf3;
+  --font-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-body: "DM Sans", Arial, sans-serif;
+  --paper-width: 520px;
+  --radius: 5px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--outside);
+  color: var(--text);
+  font: 400 16px/1.65 var(--font-body);
+}
+
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: #762d3c20; }
+button { cursor: pointer; touch-action: manipulation; }
+button:disabled { cursor: default; }
+button, input, textarea { -webkit-appearance: none; appearance: none; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+
+::selection { background: #e6c2c3; color: #48212a; }
+
+:where(button, a, input, textarea, select):focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* Ajuda per a textos accessibles que no hagin de ser visibles. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 2. PAPER I TIPOGRAFIA --------------------------------------------- */
+
+#app {
+  padding: 18px 12px 26px;
+  padding-top: max(18px, env(safe-area-inset-top));
+  padding-right: max(12px, env(safe-area-inset-right));
+  padding-bottom: max(26px, env(safe-area-inset-bottom));
+  padding-left: max(12px, env(safe-area-inset-left));
+}
+
+#app .paper {
+  position: relative;
+  width: 100%;
+  max-width: var(--paper-width);
+  min-height: calc(100vh - 44px);
+  min-height: calc(100svh - 44px);
+  margin: 0 auto;
+  padding: 26px clamp(18px, 5vw, 32px) 30px;
+  border: 1px solid #e4d6c6;
+  border-radius: 8px;
+  background-color: var(--cream);
+  background-image: radial-gradient(#9d705409 .65px, transparent .65px);
+  background-size: 5px 5px;
+  box-shadow: 0 10px 35px #39201612;
+  color: var(--ink);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* Pas d'alçada màxima: les cartes llargues fan créixer tota la pàgina. */
+#app h1, #app h2, #app h3 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+#app h1 {
+  margin: 20px 0 8px;
+  font-size: clamp(66px, 18vw, 88px);
+  line-height: 1.02;
+  letter-spacing: -3px;
+}
+
+#app h2 {
+  margin: 23px 0 18px;
+  font-size: clamp(36px, 10vw, 46px);
+  line-height: 1.07;
+  letter-spacing: -1px;
+}
+
+#app h3 {
+  margin: 15px 0;
+  font-size: 36px;
+  line-height: 1.12;
+}
+
+#app p { margin: 0 0 18px; }
+
+#app .edition {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+
+#app .intro, #app .eyebrow {
+  margin: 25px 0 10px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+#app .hand {
+  margin: 12px 0 22px;
+  font: italic 25px/1.3 var(--font-title);
+  text-wrap: balance;
+}
+
+#app .entry-message {
+  margin: 22px 0;
+  font: 400 28px/1.35 var(--font-title);
+  white-space: pre-line;
+}
+
+#app .hint {
+  margin: 14px 0 22px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+#app .note, #app .status {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#app .test {
+  margin: 28px 0 0;
+  padding: 10px 12px;
+  border: 1px dashed #c7a990;
+  border-radius: var(--radius);
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* 3. BOTONS I FORMULARIS -------------------------------------------- */
+
+#app button, #viewer button {
+  min-width: 44px;
+  min-height: 46px;
+  color: var(--ink);
+  font: 400 16px/1.5 var(--font-body);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+#app .main {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px 16px;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--cream);
+  letter-spacing: .15px;
+  transition: background-color .18s, box-shadow .18s;
+}
+
+#app .main.outline {
+  border-color: #b48288;
+  background: transparent;
+  color: var(--ink);
+}
+
+#app .skip, #app .back, #app .heart-button {
+  padding: 10px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+}
+
+#app .skip {
+  margin: 8px 0 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+#app .back { text-align: left; }
+
+#app .heart-button { color: var(--ink); }
+#app .heart-button[aria-pressed="true"] { font-weight: 500; }
+
+#app button:disabled, #viewer button:disabled {
+  opacity: .55;
+  filter: saturate(.5);
+}
+
+/* 16 px mínims als camps; zoom del navegador sempre permès. */
+#app label {
+  display: block;
+  margin: 24px auto 14px;
+  font: 400 28px/1.2 var(--font-title);
+  text-wrap: balance;
+}
+
+#app input, #app textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid #b79986;
+  border-radius: var(--radius);
+  background: var(--photo-paper);
+  color: var(--text);
+  font: 400 16px/1.6 var(--font-body);
+  caret-color: var(--ink);
+}
+
+#app textarea { min-height: 112px; resize: vertical; }
+#app input { min-height: 48px; }
+#app input::placeholder, #app textarea::placeholder { color: #796359; opacity: 1; }
+
+#app .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+#app .row > * { flex: 1 1 110px; min-width: 0; }
+
+/* 4. NAVEGACIÓ ----------------------------------------------------- */
+
+#app .topnav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-top: 8px;
+}
+
+#app .topnav .back { padding-inline: 0; }
+#app .topnav .back:last-child { text-align: right; }
+
+#app .progress {
+  display: flex;
+  gap: 6px;
+  margin: 24px 0;
+}
+
+#app .progress i {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: #dfcdbd;
+}
+
+#app .progress i.done { background: var(--ink); }
+
+/* 5. PASTÍS I ESPELMES ---------------------------------------------- */
+/* Les xifres 1 i 7 les crea app.js a partir de l'edat de contingut.js. */
+
+#app .cake-scene {
+  position: relative;
+  width: 230px;
+  max-width: 100%;
+  height: 170px;
+  margin: 16px auto 24px;
+}
+
+#app .plate {
+  position: absolute;
+  bottom: 5px;
+  left: 13px;
+  width: 204px;
+  height: 24px;
+  border: 1px solid #cdbcaa;
+  border-radius: 50%;
+  background: #e8ddd0;
+}
+
+#app .cake {
+  position: absolute;
+  bottom: 15px;
+  left: 34px;
+  width: 162px;
+  height: 70px;
+  border: 1px solid #d3aa99;
+  border-radius: 50% / 15%;
+  background: repeating-linear-gradient(90deg, #ecd1c3 0 14px, #f1dace 14px 16px);
+  box-shadow: inset 0 -8px #e7c4b3;
+}
+
+#app .icing {
+  position: absolute;
+  top: -7px;
+  left: -1px;
+  width: 162px;
+  height: 25px;
+  border: 1px solid #d3aa99;
+  border-radius: 50%;
+  background: #fff9f0;
+}
+
+#app .cake-heart {
+  position: absolute;
+  top: 23px;
+  left: 69px;
+  color: var(--ink);
+  font: 22px/1.5 Georgia, serif;
+}
+
+#app .candles {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  position: absolute;
+  bottom: 81px;
+  left: 0;
+  width: 100%;
+}
+
+#app .candle {
+  position: relative;
+  width: 31px;
+  height: 52px;
+  color: #873449;
+  font: 500 58px/.92 Georgia, serif;
+  -webkit-text-stroke: 1px #fff3e6;
+  text-shadow: 2px 1px #c5908e;
+}
+
+#app .candle::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 16px;
+  width: 2px;
+  height: 6px;
+  background: #745d45;
+}
+
+#app .flame {
+  position: absolute;
+  top: -18px;
+  left: 12px;
+  width: 10px;
+  height: 15px;
+  border-radius: 70% 30% 60% 40%;
+  background: #ce8b3e;
+  box-shadow: 0 0 12px #e1ad6655;
+  transform: rotate(-12deg);
+  transform-origin: center bottom;
+  transition: opacity .3s;
+  animation: candle-glow 2.6s ease-in-out infinite alternate;
+}
+
+#app .candle:nth-child(even) .flame { animation-delay: -.8s; }
+#app .out .flame { opacity: 0; animation: none; }
+
+@keyframes candle-glow {
+  from { transform: rotate(-12deg) scaleY(.94); }
+  to { transform: rotate(-5deg) scaleY(1.04); }
+}
+
+/* 6. SOBRES -------------------------------------------------------- */
+
+#app .envelopes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 16px;
+  margin: 30px 0;
+}
+
+#app .envelope {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  min-height: 164px;
+  padding: 82px 10px 18px;
+  border: 1px solid #cfb396;
+  border-radius: 3px;
+  background: var(--envelope);
+  color: var(--ink);
+  box-shadow: 0 5px 9px #74503c12;
+  font: 500 25px/1.1 var(--font-title);
+}
+
+#app .envelope::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 65px;
+  background: var(--flap);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+#app .envelope > span {
+  position: absolute;
+  top: 43px;
+  left: calc(50% - 16px);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--cream);
+  box-shadow: 0 2px 4px #552e2e25;
+  font: 400 14px/1 var(--font-body);
+}
+
+#app .envelope small {
+  display: block;
+  margin-top: 9px;
+  color: var(--muted);
+  font: 400 14px/1.5 var(--font-body);
+}
+
+#app .envelopes .envelope:nth-child(odd) { transform: rotate(-1deg); }
+#app .envelopes .envelope:nth-child(even) { transform: rotate(1deg); }
+
+#app .reward { padding: 38px 12px 45px; }
+#app .reward .envelope {
+  min-height: 230px;
+  padding-bottom: 35px;
+  font-size: 34px;
+  animation: paper-appear .45s ease-out;
+}
+
+/* 7. PUZLE I PROVES ------------------------------------------------- */
+
+#app .puzzle-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+  width: 100%;
+  margin: 25px 0 10px;
+  padding: 4px;
+  border-radius: 4px;
+  background: #e9dbcb;
+}
+
+/*
+ * La foto d'Altafulla és 16:9. Cada peça conserva aquesta proporció.
+ * L'espai entre peces és addicional: no estirem la fotografia per omplir-lo.
+ */
+#app .puzzle-tile {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--soft);
+  background-size: 300% 300%;
+  background-repeat: no-repeat;
+  background-origin: border-box;
+}
+
+#app .puzzle-tile.selected, #app .puzzle-tile[aria-pressed="true"] {
+  outline: 3px solid var(--ink);
+  outline-offset: -3px;
+  box-shadow: inset 0 0 0 5px #fffaf380;
+}
+
+#app .puzzle-tile:focus-visible { outline-offset: -3px; }
+
+#app .reference {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 18px 0;
+  border-radius: 3px;
+}
+
+#app .puzzle-message {
+  min-height: 26px;
+  margin: 16px 0;
+  font-size: 16px;
+}
+
+#app .choice {
+  display: block;
+  width: 100%;
+  margin: 14px 0;
+  padding: 16px;
+  border: 2px solid #dac4b3;
+  border-radius: var(--radius);
+  background: #fff8ed;
+  color: var(--ink);
+  text-align: left;
+}
+
+#app .choice.chosen, #app .choice[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: #efdbd1;
+}
+
+#app .choice img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 14px;
+  border-radius: 3px;
+}
+
+#app .choice strong {
+  display: block;
+  font: 500 29px/1.15 var(--font-title);
+}
+
+#app .choice small {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+#app .choice p { margin: 12px 0 0; }
+
+/* 8. CARTES I FOTOGRAFIES ------------------------------------------- */
+
+#app .photo-frame {
+  margin: 28px 5px;
+  padding: 9px 9px 17px;
+  border: 1px solid #e7d9c9;
+  background: var(--photo-paper);
+  box-shadow: 0 4px 12px #593c2818;
+  transform: rotate(-1.3deg);
+}
+
+#app .photo-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#app .photo-frame figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font: italic 22px/1.25 var(--font-title);
+}
+
+#app .letter-copy {
+  margin: 30px 0 15px;
+  color: var(--text);
+  text-align: left;
+  font: 400 17px/1.85 var(--font-body);
+  white-space: pre-line;
+}
+
+#app .letter-copy p { margin: 0 0 22px; }
+
+#app .letter-copy .signature {
+  margin: 30px 0 15px;
+  color: var(--ink);
+  text-align: right;
+  font: italic 30px/1.3 var(--font-title);
+}
+
+#app .letter-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 25px 0 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+#app .open-when {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  margin: 28px 0;
+}
+
+#app .open-when button {
+  min-height: 148px;
+  padding: 18px 13px;
+  border: 1px solid #cfb396;
+  border-radius: 3px;
+  background: #f2e4d3;
+  color: var(--ink);
+  text-align: left;
+  font: 500 26px/1.15 var(--font-title);
+}
+
+#app .open-when span {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font: 400 14px/1.5 var(--font-body);
+}
+
+/* 9. EL NOSTRE RACÓ ------------------------------------------------- */
+
+#app .corner-intro { padding: 26px 0 4px; }
+#app .corner-intro .eyebrow { margin: 0 0 12px; }
+#app .corner-intro h3 {
+  margin: 0 0 14px;
+  font-size: clamp(42px, 12vw, 52px);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+#app .corner-intro .subtitle {
+  margin: 0;
+  color: var(--muted);
+  font: italic 24px/1.25 var(--font-title);
+}
+
+#app .hero-memory {
+  position: relative;
+  margin: 30px 22px 36px;
+  padding: 8px 8px 14px;
+  border: 1px solid #e8d9c9;
+  background: var(--photo-paper);
+  box-shadow: 3px 7px 15px #6c3e2318;
+  transform: rotate(-3deg);
+}
+
+#app .hero-memory::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: calc(50% - 27px);
+  width: 54px;
+  height: 20px;
+  background: #d6bb9877;
+  transform: rotate(6deg);
+}
+
+#app .hero-memory::after {
+  content: "♥";
+  position: absolute;
+  right: -17px;
+  bottom: 0;
+  color: #873c4b;
+  font: 33px/1 Georgia, serif;
+  transform: rotate(16deg);
+}
+
+#app .hero-memory img { display: block; width: 100%; height: auto; }
+#app .hero-memory figcaption {
+  margin-top: 10px;
+  color: #7f5449;
+  font: italic 23px/1.25 var(--font-title);
+}
+
+#app .memory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 14px;
+  margin: 12px 0 26px;
+}
+
+#app .memory-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 212px;
+  padding: 17px 13px 16px;
+  border: 1px solid #cfb396;
+  border-radius: 3px;
+  background: #f3e5d3;
+  color: var(--ink);
+  text-align: left;
+  box-shadow: 0 3px 7px #74503c0c;
+}
+
+#app .memory-tile:nth-child(2) { background: var(--rose); transform: rotate(1.5deg); }
+#app .memory-tile:nth-child(3) { background: #f7eee1; transform: rotate(-1deg); }
+#app .memory-tile:nth-child(4) { background: #e9e9dc; }
+
+#app .memory-tile strong {
+  display: block;
+  margin-top: auto;
+  font: 500 28px/1.06 var(--font-title);
+}
+
+#app .memory-tile small {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Petites il·lustracions de paper, sense imatges externes. */
+#app .tile-art {
+  position: relative;
+  width: 100%;
+  height: 78px;
+  flex-shrink: 0;
+  margin-bottom: 15px;
+}
+
+#app .mini-envelope {
+  position: absolute;
+  top: 11px;
+  left: calc(50% - 40px);
+  width: 80px;
+  height: 48px;
+  border: 1px solid #be9b75;
+  background: #ddbd95;
+  box-shadow: 2px 4px 0 #cdae8730;
+  transform: rotate(-8deg);
+}
+
+#app .mini-envelope::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 29px;
+  background: #edcfaa;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+#app .mini-envelope::after {
+  content: "♥";
+  position: absolute;
+  top: 18px;
+  left: 29px;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: #8b3e4f;
+  color: #f6e5d7;
+  text-align: center;
+  font: 12px/23px Georgia, serif;
+}
+
+#app .mini-letter {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 30px);
+  width: 61px;
+  height: 66px;
+  border: 1px solid #d2b1a4;
+  background:
+    repeating-linear-gradient(transparent 0 10px, #c9a59b55 11px, transparent 12px),
+    #fff5e9;
+  box-shadow: -6px 6px 0 #d3b5a54d;
+  transform: rotate(8deg);
+}
+
+#app .mini-letter::after {
+  content: "per a tu";
+  position: absolute;
+  top: 26px;
+  left: -12px;
+  padding: 1px 4px;
+  background: var(--rose);
+  font: italic 22px/1.2 var(--font-title);
+  white-space: nowrap;
+  transform: rotate(-13deg);
+}
+
+#app .mini-photo {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 44px);
+  width: 88px;
+  padding: 5px 5px 12px;
+  border: 1px solid #e0cdb9;
+  background: var(--photo-paper);
+  box-shadow: 3px 3px 0 #dfc8b950;
+  transform: rotate(-7deg);
+}
+
+#app .mini-photo img { display: block; width: 100%; height: auto; }
+
+#app .mini-list {
+  position: absolute;
+  top: 2px;
+  left: calc(50% - 35px);
+  width: 70px;
+  height: 64px;
+  padding: 12px 9px;
+  background: #f8f4e4;
+  box-shadow: 2px 3px 0 #c7c8b94d;
+  transform: rotate(5deg);
+}
+
+#app .mini-list span {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 12px;
+  border-bottom: 1px solid #c8bfaa;
+}
+
+#app .mini-list span::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border: 1px solid #90856d;
+}
+
+#app .corner-extras {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 24px;
+}
+
+#app .corner-extras button {
+  padding: 14px 8px;
+  border: 1px dashed #b0907b;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink);
+}
+
+/* 10. GALERIA I PREFERITS ------------------------------------------- */
+
+#app .gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 26px 16px;
+  margin: 28px 0;
+}
+
+#app .gallery figure { margin: 0; }
+#app .gallery figure:nth-child(even) { transform: rotate(1deg); }
+#app .gallery figcaption { font-size: 21px; }
+#app .gallery .heart-button { width: 100%; padding-inline: 2px; }
+
+#app .photo-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+#app .photo-button img { display: block; width: 100%; height: auto; }
+#app .photo-frame > .choice { margin: 0; border: 0; background: transparent; }
+#app .row button[aria-pressed="true"] { background: var(--soft); border-color: var(--ink); }
+
+/* 11. VISOR, AVISOS I CONFETI --------------------------------------- */
+
+#viewer {
+  width: calc(100% - 24px);
+  max-width: 900px;
+  max-height: 92vh;
+  max-height: 92svh;
+  margin: auto;
+  padding: 16px;
+  border: 1px solid #d6bfa9;
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-shadow: 0 20px 90px #1c101b66;
+}
+
+#viewer::backdrop { background: #2e1825dd; }
+
+#viewer img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 62vh;
+  max-height: 62svh;
+  margin: 14px auto;
+  object-fit: contain;
+}
+
+#viewer p { margin: 16px 0; text-align: center; overflow-wrap: anywhere; }
+
+#viewer button {
+  padding: 9px 12px;
+  border: 1px solid #b0907b;
+  border-radius: var(--radius);
+  background: var(--cream);
+  color: var(--ink);
+}
+
+#viewer .controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 4px 0 10px;
+}
+
+#viewer .controls > span { font-size: 14px; }
+#viewer .heart-button[aria-pressed="true"] { background: var(--soft); }
+
+/* Millora progressiva; el visor segueix sent usable sense :has(). */
+@supports selector(html:has(dialog[open])) {
+  html:has(#viewer[open]) { overflow: hidden; }
+}
+
+#notice {
+  position: fixed;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 30;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 13px 18px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--cream);
+  box-shadow: 0 5px 25px #0002;
+  font: 400 16px/1.5 var(--font-body);
+  text-align: center;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+#notice:empty { display: none; }
+
+#app .confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#app .confetti i {
+  position: absolute;
+  top: -15px;
+  left: var(--x, 50%);
+  width: 5px;
+  height: 10px;
+  background: var(--ink);
+  opacity: 0;
+  animation: berta-fall 1.65s ease-out var(--delay, 0s) both;
+}
+
+#app .confetti i:nth-child(even) { background: #c99961; }
+
+@keyframes berta-fall {
+  0% { opacity: 1; transform: translateY(0) rotate(0); }
+  100% { opacity: 0; transform: translateY(85vh) rotate(260deg); }
+}
+
+@keyframes paper-appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 12. MÒBIL I ACCESSIBILITAT ---------------------------------------- */
+
+/* Novetats v2: la postal, el petit cinema i les nou parelles. */
+#app .paper-memory {
+  display: grid; place-content: center; min-height: 190px;
+  background: repeating-linear-gradient(0deg, #f1e5d8 0 27px, #e7d6c4 28px 29px);
+  color: var(--ink); text-align: center;
+}
+#app .paper-memory span { font: italic 43px/1.2 var(--font-title); }
+#app .paper-memory b { font: 42px/1.4 Georgia, serif; }
+#app .paper-memory small { font: 14px/1.5 var(--font-body); letter-spacing: 2px; }
+#app .mini-photo > span { display: block; padding: 7px 20px; background: var(--soft); font: 32px/1 Georgia, serif; }
+#app .mini-postcard { width: 106px; height: 66px; border: 1px solid #c5ac94; background: var(--photo-paper); transform: rotate(-7deg); box-shadow: 2px 3px 0 #c7b29844; }
+#app .mini-postcard::after { content: ""; position: absolute; height: 44px; left: 52px; top: 10px; border-left: 1px solid var(--line); }
+#app .mini-postcard span { display: block; padding: 12px; font: 25px/1 Georgia, serif; }
+#app .pairs-entry { display: flex; width: 100%; align-items: center; gap: 14px; padding: 19px 14px; margin-top: 24px; border: 1px solid var(--line); border-radius: 5px; background: var(--photo-paper); text-align: left; }
+#app .pairs-entry strong { display: block; font: 500 25px/1.15 var(--font-title); }
+#app .pairs-entry small { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; }
+#app .pair-mark { white-space: nowrap; font: 26px/1 Georgia, serif; }
+#app .pairs-entry > span:last-child { margin-left: auto; }
+#app .pairs-status { min-height: 26px; color: var(--muted); text-align: center; font-size: 14px; }
+#app .pairs-board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; margin: 20px 0 25px; }
+#app .pair-card { position: relative; padding: 0; aspect-ratio: 1; min-width: 0; border: 1px solid var(--line); border-radius: 5px; background: var(--photo-paper); overflow: hidden; transition: box-shadow .2s, border-color .2s; }
+#app .pair-back, #app .pair-front { position: absolute; inset: 0; display: grid; place-items: center; transition: opacity .22s; }
+#app .pair-back { background: repeating-linear-gradient(45deg, #762d3c 0 8px, #7e3645 8px 9px); color: var(--cream); font: 37px/1 Georgia, serif; }
+#app .pair-front { opacity: 0; padding: 4px; pointer-events: none; }
+#app .pair-front img { display: block; width: 100%; height: 100%; object-fit: contain; }
+#app .pair-front > span { font: 42px/1 Georgia, serif; }
+#app .pair-card.is-face .pair-front { opacity: 1; }
+#app .pair-card.is-face .pair-back { opacity: 0; }
+#app .pair-card.is-found { border: 2px solid var(--ink); box-shadow: 0 0 0 2px #762d3c15; }
+#app .pairs-finish { text-align: center; margin: 20px 0; }
+#app .cinema-stage { padding: 12px; margin: 24px -10px 10px; background: #3c2929; border-radius: 6px; }
+#app .cinema-stage figure { margin: 0; animation: cinema-appear .45s ease both; }
+#app .cinema-stage img { display: block; width: 100%; height: 48vh; height: 48svh; min-height: 190px; max-height: 500px; object-fit: contain; }
+#app .cinema-stage figcaption { min-height: 35px; padding-top: 14px; color: #fff6ea; text-align: center; font: italic 20px/1.4 var(--font-title); }
+#app .cinema-stage .hint { color: #fff6ea; min-height: 190px; display: grid; place-items: center; }
+#app .cinema-controls { display: grid; grid-template-columns: 56px 1fr 56px; gap: 8px; }
+#app .cinema-controls .main { padding: 11px 8px; }
+#app .cinema-modes [aria-pressed="true"] { box-shadow: inset 0 -3px 0 var(--ink); }
+@keyframes cinema-appear { from { opacity: .25; } to { opacity: 1; } }
+#app select { width: 100%; min-width: 0; padding: 13px 10px; min-height: 48px; border: 1px solid #b79986; border-radius: 5px; background: var(--photo-paper); color: var(--text); font-size: 16px; }
+#app .field-label { margin: 26px 0 14px; font: 28px/1.2 var(--font-title); text-align: center; color: var(--ink); }
+#app .postcard-styles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+#app .style-choice { min-width: 0; padding: 12px 6px; border: 1px solid var(--line); border-radius: 5px; background: transparent; text-align: center; }
+#app .style-choice strong { display: block; font: 400 13px/1.4 var(--font-body); }
+#app .style-choice[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: var(--photo-paper); }
+#app .style-swatch { display: grid; place-items: center; width: 44px; height: 54px; margin: 0 auto 12px; border: 4px solid #fffdf8; border-bottom-width: 12px; background: #ecd9cd; font: 22px/1 Georgia, serif; box-shadow: 1px 2px 4px #42251522; }
+#app .swatch-classic { outline: 1px solid var(--ink); border-width: 8px 4px; background: var(--cream); }
+#app .swatch-tape { position: relative; transform: rotate(-5deg); }
+#app .swatch-tape::before { content: ""; position: absolute; top: -8px; left: 3px; width: 25px; height: 10px; background: #c3a37aaa; transform: rotate(12deg); }
+#app .postcard-preview { margin-top: 22px; border: 1px solid var(--line); background: var(--soft); box-shadow: 0 6px 24px #58332414; }
+#app #postcard-canvas { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; }
+#app .postcard-export { display: block; width: 100%; height: auto; margin: 20px auto; }
+#app #postcard-result .main { text-align: center; text-decoration: none; min-height: 46px; }
+#app #postcard-result { padding-top: 12px; }
+
+/* Només hi ha efectes de ratolí en dispositius que realment en tenen. */
+@media (hover: hover) and (pointer: fine) {
+  #app .main:not(:disabled):hover { background: var(--ink-strong); }
+  #app .main.outline:not(:disabled):hover { background: var(--soft); }
+  #app .choice:not(:disabled):hover { border-color: var(--ink); }
+  #app .memory-tile:not(:disabled):hover,
+  #app .envelope:not(:disabled):hover { box-shadow: 0 7px 16px #593c2826; }
+  #app .back:hover, #app .heart-button:hover { text-decoration: underline; }
+}
+
+@media (max-width: 360px) {
+  #app .paper { padding: 22px 16px 26px; }
+  #app .memory-grid { gap: 16px 12px; }
+  #app .memory-tile { padding: 15px 10px; }
+  #app .memory-tile strong { font-size: 24px; }
+  #app .open-when { gap: 12px; }
+  #app .open-when button { padding: 16px 11px; font-size: 24px; }
+  #app .envelopes { gap: 22px 12px; }
+  #app .envelope { font-size: 23px; }
+  #app .gallery { gap: 24px 12px; }
+  #app .gallery figcaption { font-size: 20px; }
+}
+
+@media (max-width: 319px) {
+  #app .memory-grid, #app .open-when, #app .envelopes,
+  #app .gallery, #app .corner-extras { grid-template-columns: 1fr; }
+  #app .cake-scene { transform: scale(.9); transform-origin: center; }
+}
+
+@media (min-width: 700px) {
+  #app { padding: 35px 24px; }
+  #app .paper { min-height: calc(100vh - 70px); min-height: calc(100svh - 70px); }
+}
+
+/* Respecta qui ha demanat menys moviment al seu dispositiu. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  #app .confetti { display: none; }
+}
+
+/* En contrast forçat, manté perceptibles controls i seleccions. */
+@media (forced-colors: active) {
+  #app button, #app input, #app textarea, #viewer button {
+    border: 1px solid ButtonText;
+  }
+  #app .choice[aria-pressed="true"], #app .heart-button[aria-pressed="true"],
+  #app .row button[aria-pressed="true"] {
+    outline: 3px solid Highlight;
+    outline-offset: -4px;
+  }
+  #app .puzzle-tile { forced-color-adjust: none; }
+  #app .envelope > span { border: 1px solid ButtonText; }
+}
+
+/* PIN DE LA CARTA SORPRESA ------------------------------------------- */
+html.surprise-pin-open { overflow: hidden; }
+#surprise-pin {
+  width: calc(100% - 32px); max-width: 360px;
+  max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px);
+  margin: auto; padding: 26px 22px 18px;
+  border: 1px solid var(--line); border-radius: 18px;
+  background: var(--cream); color: var(--ink); text-align: center;
+  box-shadow: 0 18px 70px #2e182544;
+  overflow-y: auto; overscroll-behavior: contain;
+}
+#surprise-pin::backdrop { background: #2e182580; }
+#surprise-pin .pin-heart { display: block; font: 36px/1.2 Georgia, serif; }
+#surprise-pin h2 { margin: 12px 0; font: 400 34px/1.1 var(--font-title); }
+#surprise-pin-hint { margin: 0 auto 20px; color: var(--muted); font-size: 15px; line-height: 1.5; }
+#surprise-pin .pin-field { position: relative; border-radius: 8px; }
+#surprise-pin .pin-field:focus-within { outline: 2px solid var(--line); outline-offset: 3px; }
+#surprise-pin .pin-dots { display: flex; justify-content: center; align-items: center; gap: 17px; min-height: 58px; }
+#surprise-pin .pin-dots i { width: 15px; height: 15px; border: 1.5px solid var(--ink); border-radius: 50%; }
+#surprise-pin .pin-dots i.filled { background: var(--ink); }
+#surprise-pin-input {
+  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0;
+  border: 0; opacity: 0; font-size: 16px; cursor: text;
+}
+#surprise-pin-error { min-height: 42px; margin: 14px 0 8px; font-size: 14px; line-height: 1.5; }
+#surprise-pin button { display: block; width: 100%; min-height: 46px; padding: 11px; border-radius: 6px; font-size: 16px; }
+#surprise-pin .pin-open { border: 1px solid var(--ink); background: var(--ink); color: var(--cream); }
+#surprise-pin .pin-cancel { margin-top: 5px; border: 0; background: transparent; color: var(--muted); }
