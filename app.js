@@ -36,9 +36,9 @@
   // PIN de «Vulguis una sorpresa»: sis números entre cometes.
   // Canvia només 123456 pel teu codi; també pot començar amb zero.
   const PINS_CARTES = {
-  faltar: "111111",
-  trista: "222222",
-  riure: "333333",
+  faltar: "120526",
+  trista: "124578",
+  riure: "313131",
   dormir: "444444",
   recordar: "555555",
   sorpresa: "666666",
