@@ -37,8 +37,8 @@
   // Canvia només 123456 pel teu codi; també pot començar amb zero.
   const PINS_CARTES = {
   faltar: "120526",
-  trista: "124578",
-  riure: "313131",
+  trista: "120526",
+  riure: "120526",
   dormir: "444444",
   recordar: "555555",
   sorpresa: "666666",
