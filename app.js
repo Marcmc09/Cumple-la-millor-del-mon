@@ -1453,6 +1453,33 @@ function albumPhotos() {
   }
 
   function act(action, control) {
+    const apartatsRaco = {
+      "all-letters": "Els nostres sobres",
+      "when": "Obre’m quan…",
+      "gallery": "Els nostres records",
+      "postcard": "Una postal nostra",
+      "pairs": "Una estona més amb tu · Memory",
+      "surprise": "Sorprèn-me",
+      "favorites": "Preferits",
+      "start": "Tornar a jugar / Continuar jugant"
+    };
+
+    if (
+      ui.page === "corner" &&
+      Object.prototype.hasOwnProperty.call(apartatsRaco, action) &&
+      typeof window.goatcounter?.count === "function"
+    ) {
+      try {
+        window.goatcounter.count({
+          path: "raco-" + action,
+          title: apartatsRaco[action],
+          event: true
+        });
+      } catch (error) {
+        // La navegació continua encara que fallin les estadístiques.
+      }
+    }
+
     const g = state.game;
     const pages = ["entry", "corner", "overview", "when", "all-letters", "gallery", "favorites", "pairs", "postcard"];
     if (pages.includes(action)) {
